@@ -6,9 +6,13 @@ import { Collapsible,
     Anchor, 
     Button, 
     Menu,
-    Layer, 
+    Layer,
+    Paragraph,
     Heading } from 'grommet';
-import { Sign, Notification, FormClose } from 'grommet-icons';
+
+import { deepMerge } from "grommet/utils";
+import { grommet } from "grommet/themes";
+import { Sign, Notification, FormClose, Menu as MenuIcon } from 'grommet-icons';
 
 const AppBar = (props) => (
     <Box
@@ -25,6 +29,18 @@ const AppBar = (props) => (
 
 const theme = {
     global: {
+        breakpoints: {
+            xsmall: {
+              value: 500
+            },
+            small: {
+              value: 900
+            },
+            medium: undefined,
+            middle: {
+              value: 3000
+            }
+        },
         colors: {
             brand: '#228BE6',
             'light-2': '#f5f5f5',
@@ -33,27 +49,27 @@ const theme = {
             },
         },
         edgeSize: {
-        small: '14px',
-        },
-        elevation: {
-        light: {
-            medium: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)',
-        },
+            small: '14px',
+            },
+            elevation: {
+            light: {
+                medium: '0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)',
+            },
         },
         font: {
-        family: 'Roboto',
-        size: '14px',
-        height: '20px',
+            family: 'Roboto',
+            size: '14px',
+            height: '20px',
         },
     },
     button: {
         border: {
-        width: '1px',
-        radius: '4px',
+            width: '1px',
+            radius: '4px',
         },
         padding: {
-        vertical: '8px',
-        horizontal: '16px',
+            vertical: '8px',
+            horizontal: '16px',
         },
     },
 };
@@ -66,88 +82,103 @@ class NavBarFlex extends Component{
         };
     }
 
+    // componentDidMount() {
+    //     window.onscroll = function() {
+    //         if(window.pageYOffset === 0) {
+    //             // if the page is at the top then change the style and icon
+    //             alert('I AM AT THE TOP');
+    //         }
+    //     };
+    // }
+
+    // componentWillUnmount() {
+    //     window.onscroll = null;
+    // }
+
     render(){
         const { showSidebar } = this.state;
         return(
             <div>
-                <Grommet theme={theme} full>
-                    <ResponsiveContext.Consumer>
-                        {size => (
-                            <Box fill>
-                                <AppBar>
-                                    <Heading level='3' margin='none'>RockStar</Heading>
-                                    <Sign size='medium'/>
-                                    
+                <Grommet theme={theme}>
+                    <AppBar>
+                        <Heading level={3} margin='none'>
+                            <Sign size='medium'/>
+                            RockStarForm
+                        </Heading>
+                            <ResponsiveContext.Consumer>
+                            {size => {
+                                if (size === 'middle') {
+                                return (
+                                    <Box direction='row' pad={{"right":"30px"}} gap='medium'>
+                                        <Anchor href="#">Solutions</Anchor>
+                                        <Anchor href="#">Services</Anchor>
+                                        <Anchor href="#">Products</Anchor>
+                                        <Anchor href="#">About Us</Anchor>
+                                        <Anchor href="#">Support</Anchor>
+                                    </Box> 
+                                )
+                                } else {
+                                return (
+                                    <Box direction='row' pad={{"right":"10px"}}>
+                                        <Button
+                                            primary={true}
+                                            hoverIndicator={false} 
+                                            icon={<MenuIcon/>} 
+                                            onClick={() => {this.setState({ showSidebar: !this.state.showSidebar })}} 
+                                        />
+                                    </Box>
+                                )}
+                            }}
+                            </ResponsiveContext.Consumer>
+                    </AppBar>
+
+                    {(!showSidebar) ? (
+                        <Collapsible direction="horizontal" open={showSidebar}>
+                            <Box
+                                flex
+                                width='medium'
+                                background='light-2'
+                                elevation='small'
+                                align='center'
+                                justify='center'
+                            >
+                                Sidebar
+                            </Box>
+                        </Collapsible>
+                        ) : (
+                        <Layer>
+                            <Box
+                                tag='header'
+                                background='light-2'
+                                justify='end'
+                                align='center'
+                                direction='row'
+                            >
+                                <Button
+                                    primary={true}
+                                    icon={<FormClose/>}
+                                    onClick={() => this.setState({ showSidebar: false })}
+                                />
+                            </Box>
+
+                            <Box
+                                flex
+                                fill
+                                background='light-2'
+                                align='center'
+                                justify='start'
+                            >
+                                
+                                <Box direction='column' pad='xsmall' gap='medium'>
                                     <Anchor href="#">Solutions</Anchor>
                                     <Anchor href="#">Services</Anchor>
                                     <Anchor href="#">Products</Anchor>
                                     <Anchor href="#">About Us</Anchor>
                                     <Anchor href="#">Support</Anchor>
-                                    {/* <Box size={{width: {max: 'xxlarge'}}} direction="row"
-                                        responsive={false} justify="start" align="center"
-                                        pad={{horizontal: 'medium'}} flex="grow"> */}
-                                        {/* <Menu label="Label" inline={true} direction="column" flex="grow">
-                                            <Anchor href="#">Solutions</Anchor>
-                                            <Anchor href="#">Services</Anchor>
-                                            <Anchor href="#">Products</Anchor>
-                                            <Anchor href="#">About Us</Anchor>
-                                            <Anchor href="#">Support</Anchor>
-                                        </Menu> */}
-                                    {/* </Box> */}
-                                    {/* <Box flex="grow" align="end"> */}
-                                    <Button 
-                                        icon={<Notification />} 
-                                        onClick={() => {this.setState({ showSidebar: !this.state.showSidebar })}} 
-                                    />
-                                    {/* </Box> */}
-                                </AppBar>
-
-                                <Box direction='row' flex overflow={{ horizontal: 'hidden' }}>
-                                    <Box flex align='center' justify='center'>
-                                        app Body
-                                    </Box>    
-                                
-                                    {(!showSidebar || size !== 'small') ? (
-                                    <Collapsible direction="horizonal" open={showSidebar}>
-                                        <Box
-                                            width='medium'
-                                            background='light-2'
-                                            elevation='small'
-                                            align='center'
-                                            justify='center'
-                                        >
-                                            Sidebar
-                                        </Box>
-                                    </Collapsible>
-                                    ): (
-                                        <Layer>
-                                            <Box
-                                                tag='header'
-                                                background='light-2'
-                                                justify='end'
-                                                align='center'
-                                                direction='row'
-                                            >
-                                                <Button
-                                                    icon={<FormClose/>}
-                                                    onClick={() => this.setState({ showSidebar: false })}
-                                                />
-                                            </Box>
-
-                                            <Box
-                                                fill
-                                                background='light-2'
-                                                align='center'
-                                                justify='center'
-                                            >
-                                                sidebar
-                                            </Box>
-                                        </Layer>
-                                )}
+                                </Box>
                             </Box>
-                        </Box>
+                        </Layer>
                     )}
-                    </ResponsiveContext.Consumer>
                 </Grommet>
             </div>
         );

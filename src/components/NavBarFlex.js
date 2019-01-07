@@ -118,77 +118,82 @@ class NavBarFlex extends Component{
                                 RockStarForm
                             </Heading>
                                 <ResponsiveContext.Consumer>
-                                {size => {
-                                    if ((size !== 'small' && size !== 'xsmall')) {
+                                    {size => {
+                                        if ((size !== 'small' && size !== 'xsmall')) {
+                                            return (
+                                                <div>
+                                                    <Box direction='row' pad={{"right":"30px"}} gap='medium'>
+                                                        <Anchor href="#">Solutions</Anchor>
+                                                        <Anchor href="#">Services</Anchor>
+                                                        <Anchor href="#">Products</Anchor>
+                                                        <Anchor href="#">About Us</Anchor>
+                                                        <Anchor href="#">Support</Anchor>
+                                                    </Box>
+                                                </div>
+                                            )
+                                        } else {
+                                            return (
+                                                <div>
+                                                    <Box direction='row' pad={{"right":"10px"}}>
+                                                        <Button
+                                                            primary={true}
+                                                            hoverIndicator={false} 
+                                                            icon={<MenuIcon/>} 
+                                                            onClick={() => {this.setState({ showSidebar: !this.state.showSidebar })}} 
+                                                        />
+                                                    </Box>
 
-                                        return (
-                                            <Box direction='row' pad={{"right":"30px"}} gap='medium'>
-                                                <Anchor href="#">Solutions</Anchor>
-                                                <Anchor href="#">Services</Anchor>
-                                                <Anchor href="#">Products</Anchor>
-                                                <Anchor href="#">About Us</Anchor>
-                                                <Anchor href="#">Support</Anchor>
-                                            </Box>  
-                                        )
-                                    } else {
-                                    return (
-                                        <Box direction='row' pad={{"right":"10px"}}>
-                                            <Button
-                                                primary={true}
-                                                hoverIndicator={false} 
-                                                icon={<MenuIcon/>} 
-                                                onClick={() => {this.setState({ showSidebar: !this.state.showSidebar })}} 
-                                            />
-                                        </Box>
-                                    )}
-                                }}
+                                                    {(!showSidebar) ? (
+                                                        <div></div>
+                                                        // <Collapsible direction="horizontal" open={showSidebar}>
+                                                        //     <Box
+                                                        //         flex
+                                                        //         width='medium'
+                                                        //         background='light-2'
+                                                        //         elevation='small'
+                                                        //         align='center'
+                                                        //         justify='center'
+                                                        //     >
+                                                        //         Sidebar
+                                                        //     </Box>
+                                                        // </Collapsible>
+                                                        ) : (
+                                                        <Layer>
+                                                            <Box
+                                                                tag='header'
+                                                                background='light-2'
+                                                                justify='end'
+                                                                align='center'
+                                                                direction='row'
+                                                                pad={{"top":"12px","right":"45px"}}
+                                                            >
+                                                                <Button
+                                                                    primary={true}
+                                                                    icon={<FormClose/>}
+                                                                    onClick={() => this.setState({ showSidebar: false })}
+                                                                />
+                                                            </Box>
+
+                                                            <Box flex fill
+                                                                background='light-2'
+                                                                align='center'
+                                                                justify='start'
+                                                                gap='medium'
+                                                            >
+                                                                <Anchor href="#">Solutions</Anchor>
+                                                                <Anchor href="#">Services</Anchor>
+                                                                <Anchor href="#">Products</Anchor>
+                                                                <Anchor href="#">About Us</Anchor>
+                                                                <Anchor href="#">Support</Anchor>
+                                                            </Box>
+                                                        </Layer>
+                                                    )}
+                                                </div>
+                                            )
+                                        }
+                                    }}
                                 </ResponsiveContext.Consumer>
                         </AppBar>
-
-                            {(!showSidebar) ? (
-                                <Collapsible direction="horizontal" open={showSidebar}>
-                                    <Box
-                                        flex
-                                        width='medium'
-                                        background='light-2'
-                                        elevation='small'
-                                        align='center'
-                                        justify='center'
-                                    >
-                                        Sidebar
-                                    </Box>
-                                </Collapsible>
-                                ) : (
-                                <Layer>
-                                    <Box
-                                        tag='header'
-                                        background='light-2'
-                                        justify='end'
-                                        align='center'
-                                        direction='row'
-                                        pad={{"top":"12px","right":"45px"}}
-                                    >
-                                        <Button
-                                            primary={true}
-                                            icon={<FormClose/>}
-                                            onClick={() => this.setState({ showSidebar: false })}
-                                        />
-                                    </Box>
-
-                                    <Box flex fill
-                                        background='light-2'
-                                        align='center'
-                                        justify='start'
-                                        gap='medium'
-                                    >
-                                        <Anchor href="#">Solutions</Anchor>
-                                        <Anchor href="#">Services</Anchor>
-                                        <Anchor href="#">Products</Anchor>
-                                        <Anchor href="#">About Us</Anchor>
-                                        <Anchor href="#">Support</Anchor>
-                                    </Box>
-                                </Layer>
-                            )}
                     </Grommet>
                 </Headroom>
             </div>
